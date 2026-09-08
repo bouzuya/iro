@@ -1,0 +1,19 @@
+{
+	"dockerComposeFile": [
+		"../compose.yaml",
+		"./compose.override.yaml"
+	],
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"username": "vscode",
+			"uid": 1000,
+			"gid": 1000
+		},
+		"ghcr.io/devcontainers/features/rust:1": {}
+	},
+	"postCreateCommand": "bash .devcontainer/post-create.sh",
+	"name": "iro",
+	"remoteUser": "vscode",
+	"service": "workspace",
+	"workspaceFolder": "/workspaces/iro"
+}

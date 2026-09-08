@@ -1,0 +1,7 @@
+services:
+  workspace:
+    image: debian:trixie
+    volumes:
+      - .:/workspaces/iro:cached
+      - ~/.agents:/home/vscode/.agents
+      - ~/.claude:/home/vscode/.claude

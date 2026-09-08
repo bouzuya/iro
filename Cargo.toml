@@ -1,0 +1,8 @@
+[package]
+name = "iro"
+version = "0.0.0"
+edition = "2024"
+
+[dependencies]
+tokio = { version = "1.53.1", features = ["rt-multi-thread", "macros"] }
+topcoat = "0.6.2"
