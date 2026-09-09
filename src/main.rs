@@ -1,33 +1,40 @@
 #[tokio::main]
 async fn main() {
-    use topcoat::router::RouterBuilderDiscoverExt as _;
+    use ::topcoat::asset::RouterBuilderAssetExt as _;
+    use ::topcoat::router::RouterBuilderDiscoverExt as _;
 
-    ::topcoat::start(::topcoat::router::Router::builder().discover().build())
-        .await
-        .unwrap();
+    ::topcoat::start(
+        ::topcoat::router::Router::builder()
+            .discover()
+            .assets(::topcoat::asset::AssetBundle::load().unwrap())
+            .build(),
+    )
+    .await
+    .unwrap();
 }
 
 #[::topcoat::router::page("/")]
 async fn home() -> ::topcoat::Result<::topcoat::view::View> {
     ::topcoat::view::view! {
+        signal color = "#4e6a41".to_string();
+
         <!DOCTYPE html>
         <html>
             <head>
-                <title>"Hello world"</title>
-                topcoat::dev::script()
+                <title>"iro"</title>
+                ::topcoat::dev::script()
+                ::topcoat::runtime::script()
             </head>
-            <body>hello(name: "World")</body>
+            <body>
+                <input
+                    @input=$(|e: ::topcoat::runtime::Event| {
+                        color.set(e.target.value)
+                    })
+                    type="color"
+                    :value=$(color.get())
+                />
+                <span>$(color.get())</span>
+            </body>
         </html>
-    }
-}
-
-#[::topcoat::view::component]
-async fn hello(name: &str) -> ::topcoat::Result<::topcoat::view::View> {
-    ::topcoat::view::view! {
-        <h1>
-            "Hello, "
-            (name)
-            "!"
-        </h1>
     }
 }
