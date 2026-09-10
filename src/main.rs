@@ -14,8 +14,8 @@ async fn main() {
 }
 
 #[::topcoat::router::page("/")]
-async fn home() -> ::topcoat::Result<::topcoat::view::View> {
-    ::topcoat::view::view! {
+async fn home() -> ::topcoat::Result<impl ::topcoat::view::View> {
+    Ok(::topcoat::view::view! {
         signal color = "#4e6a41".to_string();
 
         <!DOCTYPE html>
@@ -36,5 +36,5 @@ async fn home() -> ::topcoat::Result<::topcoat::view::View> {
                 <span>$(color.get())</span>
             </body>
         </html>
-    }
+    })
 }
