@@ -7,4 +7,4 @@ echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
 rustup component add --toolchain nightly rustfmt
 rustup component add llvm-tools-preview
 cargo install cargo-llvm-cov
-cargo install topcoat-cli@0.6.2 --locked
+cargo install topcoat-cli@0.7.0 --locked
