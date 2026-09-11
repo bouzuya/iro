@@ -2,11 +2,13 @@
 async fn main() {
     use ::topcoat::asset::RouterBuilderAssetExt as _;
     use ::topcoat::router::RouterBuilderDiscoverExt as _;
+    use ::topcoat::runtime::RouterBuilderRuntimeExt as _;
 
     ::topcoat::start(
         ::topcoat::router::Router::builder()
             .discover()
             .assets(::topcoat::asset::AssetBundle::load().unwrap())
+            .runtime()
             .build(),
     )
     .await
@@ -14,10 +16,9 @@ async fn main() {
 }
 
 #[::topcoat::router::page("/")]
-async fn home() -> ::topcoat::Result<impl ::topcoat::view::View> {
+async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::view::View> {
+    let color = ::topcoat::runtime::signal(cx, || "#4e6a41".to_string());
     Ok(::topcoat::view::view! {
-        signal color = "#4e6a41".to_string();
-
         <!DOCTYPE html>
         <html>
             <head>
