@@ -15,12 +15,20 @@ async fn main() {
     .unwrap();
 }
 
+#[::topcoat::router::query_params(error = bad_request)]
+struct HomeQueryParams {
+    c: Option<String>,
+}
+
 #[::topcoat::router::page("/")]
 async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::view::View> {
+    let HomeQueryParams { c } = ::topcoat::router::query_params::<HomeQueryParams>(cx)?;
+    let c = c.clone().unwrap_or_else(|| "#4e6a41".to_string());
+
     // bouzuya-green: #4e6a41 rgb(78, 106, 65)
-    let red = ::topcoat::runtime::signal(cx, || 78.0);
-    let green = ::topcoat::runtime::signal(cx, || 106.0);
-    let blue = ::topcoat::runtime::signal(cx, || 65.0);
+    let red = ::topcoat::runtime::signal(cx, || rgb(&c).0 as f64);
+    let green = ::topcoat::runtime::signal(cx, || rgb(&c).1 as f64);
+    let blue = ::topcoat::runtime::signal(cx, || rgb(&c).2 as f64);
 
     let color = format!(
         "#{:02X}{:02X}{:02X}",
@@ -108,6 +116,39 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                         </label>
                     </div>
                 </div>
+                <div class="section">
+                    <div>"Web Safe Colors"</div>
+                    <div>
+                        let vs = ["00", "33", "66", "99", "CC", "FF"];
+                        <table>
+                            for r in vs.iter() {
+                                <tr>
+                                    for g in vs.iter() {
+                                        for b in vs.iter() {
+                                            let v = format!("#{}{}{}", r, g, b);
+                                            <td>
+                                                <form action="/" method="get">
+                                                    <input
+                                                        type="hidden"
+                                                        name="c"
+                                                        value=(&v)
+                                                    />
+                                                    <button
+                                                        style=(format!(
+                                                            "background-color: {}; border-width: 0; width: 16px; height: 16px; display: inline-block;",
+                                                            v,
+                                                        ))
+                                                        type="submit"
+                                                    ></button>
+                                                </form>
+                                            </td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
             </body>
         </html>
     })
@@ -135,25 +176,29 @@ async fn hex_input(
     })
 }
 
+fn rgb(value: &str) -> (u8, u8, u8) {
+    let value = value.strip_prefix('#').unwrap_or("000000");
+    if value.len() != 6 || value.chars().any(|c| !c.is_ascii_hexdigit()) {
+        return (0, 0, 0);
+    }
+    let r = u8::from_str_radix(&value[0..2], 16).unwrap_or(0);
+    let g = u8::from_str_radix(&value[2..4], 16).unwrap_or(0);
+    let b = u8::from_str_radix(&value[4..6], 16).unwrap_or(0);
+    (r, g, b)
+}
+
 #[::topcoat::runtime::procedure]
 async fn color_to_rgb(value: String, f: f64) -> ::topcoat::Result<f64> {
-    let value = value.strip_prefix('#').unwrap_or("000000");
-    if value.len() != 6
-        || value.chars().any(|c| !c.is_ascii_hexdigit())
-        || !(f == 0.0 || f == 1.0 || f == 2.0)
-    {
+    let (r, g, b) = rgb(&value);
+    if !(f == 0.0 || f == 1.0 || f == 2.0) {
         return Ok(0.0);
     }
-    Ok(u8::from_str_radix(
-        &value[match f {
-            0.0 => 0..2,
-            1.0 => 2..4,
-            2.0 => 4..6,
-            _ => unreachable!(),
-        }],
-        16,
-    )
-    .unwrap_or(0) as f64)
+    Ok(match f {
+        0.0 => r as f64,
+        1.0 => g as f64,
+        2.0 => b as f64,
+        _ => unreachable!(),
+    })
 }
 
 #[::topcoat::runtime::procedure]
