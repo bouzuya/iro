@@ -10,6 +10,19 @@ body {
     width: 100%;
 }
 
+.color_chip_button {
+    border-width: 0;
+    cursor: pointer;
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+}
+
+.named_color_item {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
 .section {
     background-color: #fff;
     padding: 8px;

@@ -136,18 +136,7 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                                     for g in vs.iter() {
                                         for b in vs.iter() {
                                             let v = format!("#{}{}{}", r, g, b);
-                                            <td>
-                                                <form action="/" method="get">
-                                                    <input type="hidden" name="c" value=(&v) />
-                                                    <button
-                                                        style=(format!(
-                                                            "background-color: {}; border-width: 0; width: 16px; height: 16px; display: inline-block;",
-                                                            v,
-                                                        ))
-                                                        type="submit"
-                                                    ></button>
-                                                </form>
-                                            </td>
+                                            <td>color_chip_form(color: &v)</td>
                                         }
                                     }
                                 </tr>
@@ -162,17 +151,10 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                         <ul>
                             for (name, color) in NAMED_COLORS {
                                 <li>
-                                    <form action="/" method="get">
-                                        <input type="hidden" name="c" value=(&color) />
-                                        <button
-                                            style=(format!(
-                                                "background-color: {}; border-width: 0; width: 16px; height: 16px; display: inline-block;",
-                                                color,
-                                            ))
-                                            type="submit"
-                                        ></button>
-                                        <span>(name)</span>
-                                    </form>
+                                <div class="named_color_item">
+                                    color_chip_form(color: &color)
+                                    <span>(name)</span>
+                                    </div>
                                 </li>
                             }
                         </ul>
@@ -183,25 +165,17 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
     })
 }
 
-#[::topcoat::runtime::shard]
-async fn hex_input(
-    blue: ::topcoat::runtime::Signal<f64>,
-) -> ::topcoat::Result<impl ::topcoat::view::View> {
-    let value = blue.get();
-    let value = format!("{:02X}", value as u8);
-    // Ok(::topcoat::view::view! { <input maxlength="2" type="text" value=(value) /> })
+#[::topcoat::view::component]
+async fn color_chip_form(color: &str) -> ::topcoat::Result<impl ::topcoat::view::View> {
     Ok(::topcoat::view::view! {
-        <input
-            @input=$(async |e: ::topcoat::runtime::Event| {
-                let s = e.target.value.to_owned();
-                // TODO: convert the string to a float without procedure
-                let n = hex_str_to_f64(s).await;
-                blue.set(n);
-            })
-            maxlength="2"
-            type="text"
-            value=(value)
-        />
+        <form action="/" method="get">
+            <input type="hidden" name="c" value=(&color) />
+            <button
+                class="color_chip_button"
+                style=(format!("background-color: {}", color))
+                type="submit"
+            ></button>
+        </form>
     })
 }
 
