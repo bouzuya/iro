@@ -64,6 +64,16 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                         value=(color.clone())
                     />
                     <div>
+                        <h2>"Name"</h2>
+                        <span>
+                            (NAMED_COLORS
+                                .iter()
+                                .find(|it| it.1.eq_ignore_ascii_case(&color))
+                                .map(|it| it.0)
+                                .unwrap_or("(none)"))
+                        </span>
+                    </div>
+                    <div>
                         <h2>"RGB (Hex)"</h2>
                         <span>(color)</span>
                     </div>
