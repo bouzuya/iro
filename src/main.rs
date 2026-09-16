@@ -1,3 +1,5 @@
+mod rgb;
+
 #[tokio::main]
 async fn main() {
     use ::topcoat::asset::RouterBuilderAssetExt as _;
