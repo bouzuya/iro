@@ -1,5 +1,7 @@
 mod rgb;
 
+use self::rgb::Rgb;
+
 #[tokio::main]
 async fn main() {
     use ::topcoat::asset::RouterBuilderAssetExt as _;
@@ -25,19 +27,16 @@ struct HomeQueryParams {
 #[::topcoat::router::page("/")]
 async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::view::View> {
     let HomeQueryParams { c } = ::topcoat::router::query_params::<HomeQueryParams>(cx)?;
-    let c = c.clone().unwrap_or_else(|| "#4e6a41".to_string());
+    let c = c
+        .as_deref()
+        .and_then(|s| Rgb::from_hex(s).ok())
+        .unwrap_or_else(Rgb::bouzuya_green);
 
-    // bouzuya-green: #4e6a41 rgb(78, 106, 65)
-    let red = ::topcoat::runtime::signal(cx, || rgb(&c).0 as f64);
-    let green = ::topcoat::runtime::signal(cx, || rgb(&c).1 as f64);
-    let blue = ::topcoat::runtime::signal(cx, || rgb(&c).2 as f64);
+    let red = ::topcoat::runtime::signal(cx, || c.r() as f64);
+    let green = ::topcoat::runtime::signal(cx, || c.g() as f64);
+    let blue = ::topcoat::runtime::signal(cx, || c.b() as f64);
 
-    let color = format!(
-        "#{:02X}{:02X}{:02X}",
-        red.get() as u8,
-        green.get() as u8,
-        blue.get() as u8
-    );
+    let color = Rgb::new(red.get() as u8, green.get() as u8, blue.get() as u8).to_hex();
 
     Ok(::topcoat::view::view! {
         <!DOCTYPE html>
@@ -181,20 +180,11 @@ async fn color_chip_form(color: &str) -> ::topcoat::Result<impl ::topcoat::view:
     })
 }
 
-fn rgb(value: &str) -> (u8, u8, u8) {
-    let value = value.strip_prefix('#').unwrap_or("000000");
-    if value.len() != 6 || value.chars().any(|c| !c.is_ascii_hexdigit()) {
-        return (0, 0, 0);
-    }
-    let r = u8::from_str_radix(&value[0..2], 16).unwrap_or(0);
-    let g = u8::from_str_radix(&value[2..4], 16).unwrap_or(0);
-    let b = u8::from_str_radix(&value[4..6], 16).unwrap_or(0);
-    (r, g, b)
-}
-
 #[::topcoat::runtime::procedure]
 async fn color_to_rgb(value: String, f: f64) -> ::topcoat::Result<f64> {
-    let (r, g, b) = rgb(&value);
+    let rgb = Rgb::from_hex(&value).unwrap_or_else(|_| Rgb::new(0, 0, 0));
+    let (r, g, b) = (rgb.r(), rgb.g(), rgb.b());
+
     if !(f == 0.0 || f == 1.0 || f == 2.0) {
         return Ok(0.0);
     }
