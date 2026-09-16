@@ -784,7 +784,9 @@ dependencies = [
 name = "iro"
 version = "0.0.0"
 dependencies = [
+ "anyhow",
  "serde",
+ "thiserror",
  "tokio",
  "topcoat",
 ]

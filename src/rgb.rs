@@ -1,3 +1,7 @@
+#[derive(Debug, ::thiserror::Error)]
+#[error("rgb error")]
+struct RgbError;
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 struct Rgb {
     r: u8,
@@ -6,6 +10,17 @@ struct Rgb {
 }
 
 impl Rgb {
+    pub fn from_hex(s: &str) -> Result<Self, RgbError> {
+        if s.len() != 7 || !s.starts_with('#') || s.chars().skip(1).any(|c| !c.is_ascii_hexdigit())
+        {
+            return Err(RgbError);
+        }
+        let r = u8::from_str_radix(&s[1..3], 16).map_err(|_| RgbError)?;
+        let g = u8::from_str_radix(&s[3..5], 16).map_err(|_| RgbError)?;
+        let b = u8::from_str_radix(&s[5..7], 16).map_err(|_| RgbError)?;
+        Ok(Self { r, g, b })
+    }
+
     pub fn new(r: u8, g: u8, b: u8) -> Self {
         Self { r, g, b }
     }
@@ -18,6 +33,15 @@ impl Rgb {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_rgb_from_hex() -> ::anyhow::Result<()> {
+        let rgb = Rgb::from_hex("#FF8000")?;
+        assert_eq!(rgb.r, 255);
+        assert_eq!(rgb.g, 128);
+        assert_eq!(rgb.b, 0);
+        Ok(())
+    }
 
     #[test]
     fn test_rgb_new() {
