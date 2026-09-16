@@ -10,6 +10,15 @@ pub struct Rgb {
 }
 
 impl Rgb {
+    pub fn bouzuya_green() -> Self {
+        // bouzuya-green: #4e6a41 rgb(78, 106, 65)
+        Self {
+            r: 78,
+            g: 106,
+            b: 65,
+        }
+    }
+
     pub fn from_hex(s: &str) -> Result<Self, RgbError> {
         if s.len() != 7 || !s.starts_with('#') || s.chars().skip(1).any(|c| !c.is_ascii_hexdigit())
         {
@@ -45,6 +54,15 @@ impl Rgb {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_rgb_bouzuya_green() {
+        let rgb = Rgb::bouzuya_green();
+        assert_eq!(rgb.r(), 78);
+        assert_eq!(rgb.g(), 106);
+        assert_eq!(rgb.b(), 65);
+        assert_eq!(rgb.to_hex(), "#4E6A41");
+    }
 
     #[test]
     fn test_rgb_from_hex() -> ::anyhow::Result<()> {
