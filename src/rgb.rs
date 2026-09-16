@@ -1,9 +1,9 @@
 #[derive(Debug, ::thiserror::Error)]
 #[error("rgb error")]
-struct RgbError;
+pub struct RgbError;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-struct Rgb {
+pub struct Rgb {
     r: u8,
     g: u8,
     b: u8,
@@ -25,6 +25,18 @@ impl Rgb {
         Self { r, g, b }
     }
 
+    pub fn b(&self) -> u8 {
+        self.b
+    }
+
+    pub fn g(&self) -> u8 {
+        self.g
+    }
+
+    pub fn r(&self) -> u8 {
+        self.r
+    }
+
     pub fn to_hex(&self) -> String {
         format!("#{:02X}{:02X}{:02X}", self.r, self.g, self.b)
     }
@@ -37,18 +49,18 @@ mod tests {
     #[test]
     fn test_rgb_from_hex() -> ::anyhow::Result<()> {
         let rgb = Rgb::from_hex("#FF8000")?;
-        assert_eq!(rgb.r, 255);
-        assert_eq!(rgb.g, 128);
-        assert_eq!(rgb.b, 0);
+        assert_eq!(rgb.r(), 255);
+        assert_eq!(rgb.g(), 128);
+        assert_eq!(rgb.b(), 0);
         Ok(())
     }
 
     #[test]
     fn test_rgb_new() {
         let rgb = Rgb::new(255, 128, 0);
-        assert_eq!(rgb.r, 255);
-        assert_eq!(rgb.g, 128);
-        assert_eq!(rgb.b, 0);
+        assert_eq!(rgb.r(), 255);
+        assert_eq!(rgb.g(), 128);
+        assert_eq!(rgb.b(), 0);
     }
 
     #[test]
