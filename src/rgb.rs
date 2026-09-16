@@ -9,6 +9,7 @@ pub struct Rgb {
     b: u8,
 }
 
+// associated functions
 impl Rgb {
     pub fn bouzuya_green() -> Self {
         // bouzuya-green: #4e6a41 rgb(78, 106, 65)
@@ -33,7 +34,10 @@ impl Rgb {
     pub fn new(r: u8, g: u8, b: u8) -> Self {
         Self { r, g, b }
     }
+}
 
+// methods
+impl Rgb {
     pub fn b(&self) -> u8 {
         self.b
     }
