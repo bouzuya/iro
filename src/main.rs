@@ -204,4 +204,3 @@ async fn hex_str_to_f64(value: String) -> ::topcoat::Result<f64> {
 async fn str_to_f64(value: String) -> ::topcoat::Result<f64> {
     Ok(value.parse::<f64>().unwrap_or(0.0))
 }
-
