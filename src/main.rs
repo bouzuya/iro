@@ -1,3 +1,4 @@
+mod hsl;
 mod named_colors;
 mod rgb;
 
