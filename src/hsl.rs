@@ -1,8 +1,18 @@
 use crate::rgb::Rgb;
 
 #[derive(Debug, ::thiserror::Error)]
-#[error("hsl error")]
-pub struct HslError;
+#[error(transparent)]
+pub struct HslError(E);
+
+#[derive(Debug, ::thiserror::Error)]
+enum E {
+    #[error("invalid hue")]
+    InvalidHue,
+    #[error("invalid saturation")]
+    InvalidSaturation,
+    #[error("invalid lightness")]
+    InvalidLightness,
+}
 
 #[derive(Debug, Eq, PartialEq)]
 pub struct Hsl {
@@ -73,13 +83,13 @@ impl Hsl {
 
     pub fn new(h: u16, s: u8, l: u8) -> Result<Self, HslError> {
         if !(0..360).contains(&h) {
-            return Err(HslError);
+            return Err(HslError(E::InvalidHue));
         }
         if !(0..=100).contains(&s) {
-            return Err(HslError);
+            return Err(HslError(E::InvalidSaturation));
         }
         if !(0..=100).contains(&l) {
-            return Err(HslError);
+            return Err(HslError(E::InvalidLightness));
         }
 
         Ok(Self { h, s, l })
