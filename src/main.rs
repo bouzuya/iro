@@ -54,23 +54,28 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
             </head>
             <body>
                 <div class="section">
-                    <input
-                        @input=$(async |e: ::topcoat::runtime::Event| {
-                            let s = e.target.value.to_owned();
-                            let r = color_to_rgb(s.clone(), 0.0).await;
-                            let g = color_to_rgb(s.clone(), 1.0).await;
-                            let b = color_to_rgb(s.clone(), 2.0).await;
-                            red.set(r);
-                            green.set(g);
-                            blue.set(b);
-                        })
-                        type="color"
-                        value=(color.clone())
-                    />
+                    <div>
+                        <h2>"Color Picker"</h2>
+                        <input
+                            @input=$(async |e: ::topcoat::runtime::Event| {
+                                let s = e.target.value.to_owned();
+                                let r = color_to_rgb(s.clone(), 0.0).await;
+                                let g = color_to_rgb(s.clone(), 1.0).await;
+                                let b = color_to_rgb(s.clone(), 2.0).await;
+                                red.set(r);
+                                green.set(g);
+                                blue.set(b);
+                            })
+                            type="color"
+                            value=(color.clone())
+                        />
+                    </div>
                     <div>
                         <h2>"Name"</h2>
                         <span>
-                            (NamedColors::find_name_by_hex(&color).unwrap_or("(none)").to_string())
+                            (NamedColors::find_name_by_hex(&color)
+                                .unwrap_or("(none)")
+                                .to_string())
                         </span>
                     </div>
                     <div>
