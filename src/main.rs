@@ -2,6 +2,8 @@ mod hsl;
 mod named_colors;
 mod rgb;
 
+use crate::hsl::Hsl;
+
 use self::named_colors::NamedColors;
 use self::rgb::Rgb;
 
@@ -39,7 +41,8 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
     let green = ::topcoat::runtime::signal(cx, || c.g() as f64);
     let blue = ::topcoat::runtime::signal(cx, || c.b() as f64);
 
-    let color = Rgb::new(red.get() as u8, green.get() as u8, blue.get() as u8).to_hex();
+    let rgb = Rgb::new(red.get() as u8, green.get() as u8, blue.get() as u8);
+    let color = rgb.to_hex();
 
     Ok(::topcoat::view::view! {
         <!DOCTYPE html>
@@ -129,6 +132,11 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                                 :value=$(blue.get())
                             />
                         </label>
+                    </div>
+                    <div>
+                        <h2>"HSL (Hue, Saturation, Lightness)"</h2>
+                        let hsl = Hsl::from_rgb(rgb);
+                        <div>(format!("hsl({}deg, {}%, {}%)", hsl.h(), hsl.s(), hsl.l()))</div>
                     </div>
                 </div>
                 <div class="section">
