@@ -83,7 +83,13 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                     </div>
                     <div>
                         <h2>"RGB (Hex)"</h2>
-                        <span>(color)</span>
+                        <label>
+                            <span>"Hex"</span>
+                            <form action="/" method="get">
+                                <input name="c" type="text" :value=$(color) />
+                                <button type="submit">"Submit"</button>
+                            </form>
+                        </label>
                     </div>
                     <div>
                         <h2>"RGB (Red, Green, Blue)"</h2>
@@ -136,7 +142,9 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                     <div>
                         <h2>"HSL (Hue, Saturation, Lightness)"</h2>
                         let hsl = Hsl::from_rgb(rgb);
-                        <div>(format!("hsl({}deg, {}%, {}%)", hsl.h(), hsl.s(), hsl.l()))</div>
+                        <div>
+                            (format!("hsl({}deg, {}%, {}%)", hsl.h(), hsl.s(), hsl.l()))
+                        </div>
                     </div>
                 </div>
                 <div class="section">
