@@ -153,14 +153,14 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                         let vs = ["00", "33", "66", "99", "CC", "FF"];
                         <table>
                             for r in vs.iter() {
-                                <tr>
-                                    for g in vs.iter() {
+                                for g in vs.iter() {
+                                    <tr>
                                         for b in vs.iter() {
                                             let v = format!("#{}{}{}", r, g, b);
                                             <td>color_chip_form(color: &v)</td>
                                         }
-                                    }
-                                </tr>
+                                    </tr>
+                                }
                             }
                         </table>
                     </div>
