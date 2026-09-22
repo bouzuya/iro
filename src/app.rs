@@ -12,9 +12,7 @@ pub fn router() -> ::topcoat::router::Router {
         .build()
 }
 
-// async fn redirect(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::view::View> {
 #[::topcoat::router::page]
 async fn redirect() -> ::topcoat::Result<()> {
-    // -> ::topcoat::Result<impl ::topcoat::view::View> {
     Err(::topcoat::router::error::redirect("/lab/iro").into())
 }
