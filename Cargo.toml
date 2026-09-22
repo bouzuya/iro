@@ -7,7 +7,7 @@ edition = "2024"
 serde = { version = "1.0.229", features = ["derive"] }
 thiserror = "2.0.20"
 tokio = { version = "1.53.1", features = ["rt-multi-thread", "macros"] }
-topcoat = "0.8.0"
+topcoat = "0.8.1"
 
 [dev-dependencies]
 anyhow = "1.0.104"
