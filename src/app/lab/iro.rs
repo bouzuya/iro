@@ -29,6 +29,7 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                 <meta charset="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <title>"iro"</title>
+                <link href=(::topcoat::tailwind::stylesheet!()) rel="stylesheet" />
                 <link href=(::topcoat::asset::asset!("../../index.css")) rel="stylesheet" />
                 ::topcoat::dev::script()
                 ::topcoat::runtime::script()
