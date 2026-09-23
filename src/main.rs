@@ -8,6 +8,7 @@ pub use self::named_colors::NamedColors;
 pub use self::rgb::Rgb;
 
 #[tokio::main]
-async fn main() {
-    ::topcoat::start(self::app::router()).await.unwrap();
+async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
+    ::topcoat::start(self::app::router()?).await?;
+    Ok(())
 }
