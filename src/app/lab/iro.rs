@@ -70,7 +70,7 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                         <h2>"RGB (Hex)"</h2>
                         <label>
                             <span>"Hex"</span>
-                            <form action="/" method="get">
+                            <form action="/lab/iro" method="get">
                                 <input name="c" type="text" :value=$(color) />
                                 <button type="submit">"Submit"</button>
                             </form>
@@ -174,7 +174,7 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
 #[::topcoat::view::component]
 async fn color_chip_form(color: &str) -> ::topcoat::Result<impl ::topcoat::view::View> {
     Ok(::topcoat::view::view! {
-        <form action="/" method="get">
+        <form action="/lab/iro" method="get">
             <input type="hidden" name="c" value=(&color) />
             <button
                 class="color_chip_button"
