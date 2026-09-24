@@ -30,7 +30,10 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <title>"iro"</title>
                 <link href=(::topcoat::tailwind::stylesheet!()) rel="stylesheet" />
-                <link href=(::topcoat::asset::asset!("../../index.css")) rel="stylesheet" />
+                <link
+                    href=(::topcoat::asset::asset!("../../index.css"))
+                    rel="stylesheet"
+                />
                 ::topcoat::dev::script()
                 ::topcoat::runtime::script()
             </head>
@@ -55,9 +58,12 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                     <div>
                         <h2>"Name"</h2>
                         <span>
-                            (NamedColors::find_name_by_hex(&color)
-                                .unwrap_or("(none)")
-                                .to_string())
+                            let names = NamedColors::find_names_by_hex(&color);
+                            (if names.is_empty() {
+                                "(none)".to_string()
+                            } else {
+                                names.join(", ")
+                            })
                         </span>
                     </div>
                     <div>
