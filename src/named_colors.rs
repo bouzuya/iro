@@ -15,6 +15,14 @@ impl NamedColors {
             .find(|it| it.1.eq_ignore_ascii_case(&hex))
             .map(|it| it.0)
     }
+
+    pub fn find_names_by_hex(hex: &str) -> Vec<&'static str> {
+        NAMED_COLORS
+            .iter()
+            .filter(|it| it.1.eq_ignore_ascii_case(&hex))
+            .map(|it| it.0)
+            .collect()
+    }
 }
 
 impl std::iter::IntoIterator for NamedColors {
@@ -217,5 +225,14 @@ mod tests {
         // for (name, color) in NamedColors {
         //     assert_eq!(NamedColors::find_name_by_hex(&color).unwrap_or(""), name);
         // }
+    }
+
+    #[test]
+    fn test_named_colors_find_names_by_hex() {
+        assert_eq!(NamedColors::find_names_by_hex(&"#ff0000"), vec!["red"]);
+        assert_eq!(
+            NamedColors::find_names_by_hex(&"#a9a9a9"),
+            vec!["darkgray", "darkgrey"]
+        );
     }
 }
