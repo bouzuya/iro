@@ -2,6 +2,13 @@ pub struct NamedColors;
 
 // associated functions
 impl NamedColors {
+    pub fn find_hex_by_name(hex: &str) -> Option<&'static str> {
+        NAMED_COLORS
+            .iter()
+            .find(|it| it.0.eq_ignore_ascii_case(&hex))
+            .map(|it| it.1)
+    }
+
     pub fn find_name_by_hex(hex: &str) -> Option<&'static str> {
         NAMED_COLORS
             .iter()
@@ -183,6 +190,22 @@ mod tests {
             count += 1;
         }
         assert!(count > 0);
+    }
+
+    #[test]
+    fn test_named_colors_find_hex_by_name() {
+        assert_eq!(
+            NamedColors::find_hex_by_name(&"red").unwrap_or(""),
+            "#ff0000"
+        );
+        assert_eq!(
+            NamedColors::find_hex_by_name(&"darkgray").unwrap_or(""),
+            "#a9a9a9"
+        );
+        assert_eq!(
+            NamedColors::find_hex_by_name(&"darkgrey").unwrap_or(""),
+            "#a9a9a9"
+        );
     }
 
     #[test]
