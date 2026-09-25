@@ -67,68 +67,57 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                         </span>
                     </div>
                     <div>
-                        <h2>"RGB (Hex)"</h2>
-                        <label>
-                            <span>"Hex"</span>
-                            <form action="/lab/iro" method="get">
-                                <input name="c" type="text" :value=$(color) />
-                                <button type="submit">"Submit"</button>
-                            </form>
-                        </label>
+                        <form action="/lab/iro" method="get">
+                            <input name="c" type="text" :value=$(color) />
+                            <button type="submit">"Submit"</button>
+                        </form>
                     </div>
                     <div>
-                        <h2>"RGB (Red, Green, Blue)"</h2>
-                        <label>
-                            <span>"R"</span>
-                            <input
-                                @input=$(async |e: ::topcoat::runtime::Event| {
-                                    let s = e.target.value.to_owned();
-                                    // TODO: convert the string to a float without procedure
-                                    let n = str_to_f64(s).await;
-                                    red.set(n);
-                                })
-                                max="255"
-                                min="0"
-                                type="number"
-                                :value=$(red.get())
-                            />
-                        </label>
-                        <label>
-                            <span>"G"</span>
-                            <input
-                                @input=$(async |e: ::topcoat::runtime::Event| {
-                                    let s = e.target.value.to_owned();
-                                    // TODO: convert the string to a float without procedure
-                                    let n = str_to_f64(s).await;
-                                    green.set(n);
-                                })
-                                max="255"
-                                min="0"
-                                type="number"
-                                :value=$(green.get())
-                            />
-                        </label>
-                        <label>
-                            <span>"B"</span>
-                            <input
-                                @input=$(async |e: ::topcoat::runtime::Event| {
-                                    let s = e.target.value.to_owned();
-                                    // TODO: convert the string to a float without procedure
-                                    let n = str_to_f64(s).await;
-                                    blue.set(n);
-                                })
-                                max="255"
-                                min="0"
-                                type="number"
-                                :value=$(blue.get())
-                            />
-                        </label>
+                        "rgb("
+                        <input
+                            @input=$(async |e: ::topcoat::runtime::Event| {
+                                let s = e.target.value.to_owned();
+                                // TODO: convert the string to a float without procedure
+                                let n = str_to_f64(s).await;
+                                red.set(n);
+                            })
+                            max="255"
+                            min="0"
+                            type="number"
+                            :value=$(red.get())
+                        />
+                        " "
+                        <input
+                            @input=$(async |e: ::topcoat::runtime::Event| {
+                                let s = e.target.value.to_owned();
+                                // TODO: convert the string to a float without procedure
+                                let n = str_to_f64(s).await;
+                                green.set(n);
+                            })
+                            max="255"
+                            min="0"
+                            type="number"
+                            :value=$(green.get())
+                        />
+                        " "
+                        <input
+                            @input=$(async |e: ::topcoat::runtime::Event| {
+                                let s = e.target.value.to_owned();
+                                // TODO: convert the string to a float without procedure
+                                let n = str_to_f64(s).await;
+                                blue.set(n);
+                            })
+                            max="255"
+                            min="0"
+                            type="number"
+                            :value=$(blue.get())
+                        />
+                        ")"
                     </div>
                     <div>
-                        <h2>"HSL (Hue, Saturation, Lightness)"</h2>
                         let hsl = Hsl::from_rgb(rgb);
                         <div>
-                            (format!("hsl({}deg, {}%, {}%)", hsl.h(), hsl.s(), hsl.l()))
+                            (format!("hsl({}deg {}% {}%)", hsl.h(), hsl.s(), hsl.l()))
                         </div>
                     </div>
                 </div>
