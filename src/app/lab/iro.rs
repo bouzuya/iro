@@ -40,6 +40,11 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
             <body>
                 <div class="section">
                     <div>
+                        <div
+                            style=(format!("width: 100px; height: 100px; background-color: {};", color))
+                        ></div>
+                    </div>
+                    <div>
                         <h2>"Color Picker"</h2>
                         <input
                             @input=$(async |e: ::topcoat::runtime::Event| {
