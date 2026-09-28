@@ -10,6 +10,11 @@ body {
     width: 100%;
 }
 
+.color_chip_form {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
 .color_chip_button {
     border-width: 0;
     cursor: pointer;
@@ -21,6 +26,7 @@ body {
 .named_color_item {
     display: flex;
     flex-flow: row nowrap;
+    gap: 4px;
 }
 
 .section {
