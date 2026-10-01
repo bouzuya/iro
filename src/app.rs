@@ -27,7 +27,7 @@ pub fn router() -> Result<::topcoat::router::Router, Box<dyn std::error::Error +
                     ),
                     ::topcoat::asset::AssetBundle::load_dir("src/app/lab/iro/assets")?,
                 ))
-                .serve_dir("/lab/iro/assets/{*file}", "src/app")
+                .serve_dir("/lab/iro/assets/{*file}", "src/app/lab/iro/assets")
             };
             Ok(result)
         }
