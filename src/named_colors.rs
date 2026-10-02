@@ -9,13 +9,6 @@ impl NamedColors {
             .map(|it| it.1)
     }
 
-    pub fn find_name_by_hex(hex: &str) -> Option<&'static str> {
-        NAMED_COLORS
-            .iter()
-            .find(|it| it.1.eq_ignore_ascii_case(&hex))
-            .map(|it| it.0)
-    }
-
     pub fn find_names_by_hex(hex: &str) -> Vec<&'static str> {
         NAMED_COLORS
             .iter()
@@ -214,17 +207,6 @@ mod tests {
             NamedColors::find_hex_by_name(&"darkgrey").unwrap_or(""),
             "#a9a9a9"
         );
-    }
-
-    #[test]
-    fn test_named_colors_find_name_by_hex() {
-        assert_eq!(
-            NamedColors::find_name_by_hex(&"#ff0000").unwrap_or(""),
-            "red"
-        );
-        // for (name, color) in NamedColors {
-        //     assert_eq!(NamedColors::find_name_by_hex(&color).unwrap_or(""), name);
-        // }
     }
 
     #[test]
