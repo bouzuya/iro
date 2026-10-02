@@ -1,6 +1,9 @@
+use topcoat::view::attributes;
+
 use crate::Hsl;
 use crate::NamedColors;
 use crate::Rgb;
+use crate::components::button::button;
 
 #[::topcoat::router::query_params(error = bad_request)]
 struct HomeQueryParams {
@@ -34,7 +37,9 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                     href=(::topcoat::asset::asset!("../../index.css"))
                     rel="stylesheet"
                 />
-                ::topcoat::font::link(font: ::topcoat::font::fontsource::fontsource_font!(GEIST))
+                ::topcoat::font::link(
+                    font: ::topcoat::font::fontsource::fontsource_font!(GEIST)
+                )
                 ::topcoat::dev::script()
                 ::topcoat::runtime::script()
             </head>
@@ -42,7 +47,10 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                 <div class="section">
                     <div>
                         <div
-                            style=(format!("width: 100px; height: 100px; background-color: {};", color))
+                            style=(format!(
+                                "width: 100px; height: 100px; background-color: {};",
+                                color,
+                            ))
                         ></div>
                     </div>
                     <div>
@@ -75,6 +83,10 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                     <div>
                         <form action="/lab/iro" method="get">
                             <input name="c" type="text" :value=$(color) />
+                            button(
+                                attrs: attributes! { type="submit" class="ml-auto" },
+                                "Submit"
+                            )
                             <button type="submit">"Submit"</button>
                         </form>
                     </div>

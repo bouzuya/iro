@@ -1,4 +1,5 @@
 mod app;
+pub mod components;
 mod hsl;
 mod named_colors;
 mod rgb;
