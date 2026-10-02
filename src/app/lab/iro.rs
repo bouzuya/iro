@@ -4,6 +4,7 @@ use crate::Hsl;
 use crate::NamedColors;
 use crate::Rgb;
 use crate::components::button::button;
+use crate::components::input::input;
 
 #[::topcoat::router::query_params(error = bad_request)]
 struct HomeQueryParams {
@@ -81,13 +82,11 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                         </span>
                     </div>
                     <div>
-                        <form action="/lab/iro" method="get">
-                            <input name="c" type="text" :value=$(color) />
-                            button(
-                                attrs: attributes! { type="submit" class="ml-auto" },
-                                "Submit"
+                        <form action="/lab/iro" class="flex flex-row gap-2" method="get">
+                            input(
+                                attrs: attributes! { name="c" type="text" :value=$(color) }
                             )
-                            <button type="submit">"Submit"</button>
+                            button(attrs: attributes! { type="submit" }, "Submit")
                         </form>
                     </div>
                     <div>
