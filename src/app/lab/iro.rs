@@ -34,6 +34,7 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                     href=(::topcoat::asset::asset!("../../index.css"))
                     rel="stylesheet"
                 />
+                ::topcoat::font::link(font: ::topcoat::font::fontsource::fontsource_font!(GEIST))
                 ::topcoat::dev::script()
                 ::topcoat::runtime::script()
             </head>
