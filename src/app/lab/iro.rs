@@ -45,7 +45,7 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                 ::topcoat::runtime::script()
             </head>
             <body>
-                <div class="section">
+                <div class="section flex flex-col gap-2">
                     <div>
                         <div
                             style=(format!(
@@ -89,46 +89,55 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                             button(attrs: attributes! { type="submit" }, "Submit")
                         </form>
                     </div>
-                    <div>
+                    <div class="flex flex-row gap-2 items-center">
                         "rgb("
-                        <input
-                            @input=$(async |e: ::topcoat::runtime::Event| {
-                                let s = e.target.value.to_owned();
-                                // TODO: convert the string to a float without procedure
-                                let n = str_to_f64(s).await;
-                                red.set(n);
-                            })
-                            max="255"
-                            min="0"
-                            type="number"
-                            :value=$(red.get())
-                        />
+                        input(
+                            attrs: attributes! {
+                                class="inline-block"
+                                @input=$(async |e: ::topcoat::runtime::Event| {
+                                    let s = e.target.value.to_owned();
+                                    // TODO: convert the string to a float without procedure
+                                    let n = str_to_f64(s).await;
+                                    red.set(n);
+                                })
+                                max="255"
+                                min="0"
+                                type="number"
+                                :value=$(red.get())
+                            }
+                        )
                         " "
-                        <input
-                            @input=$(async |e: ::topcoat::runtime::Event| {
-                                let s = e.target.value.to_owned();
-                                // TODO: convert the string to a float without procedure
-                                let n = str_to_f64(s).await;
-                                green.set(n);
-                            })
-                            max="255"
-                            min="0"
-                            type="number"
-                            :value=$(green.get())
-                        />
+                        input(
+                            attrs: attributes! {
+                                class="inline-block"
+                                @input=$(async |e: ::topcoat::runtime::Event| {
+                                    let s = e.target.value.to_owned();
+                                    // TODO: convert the string to a float without procedure
+                                    let n = str_to_f64(s).await;
+                                    green.set(n);
+                                })
+                                max="255"
+                                min="0"
+                                type="number"
+                                :value=$(green.get())
+                            }
+                        )
                         " "
-                        <input
-                            @input=$(async |e: ::topcoat::runtime::Event| {
-                                let s = e.target.value.to_owned();
-                                // TODO: convert the string to a float without procedure
-                                let n = str_to_f64(s).await;
-                                blue.set(n);
-                            })
-                            max="255"
-                            min="0"
-                            type="number"
-                            :value=$(blue.get())
-                        />
+                        input(
+                            attrs: attributes! {
+                                class="inline-block"
+                                @input=$(async |e: ::topcoat::runtime::Event| {
+                                    let s = e.target.value.to_owned();
+                                    // TODO: convert the string to a float without procedure
+                                    let n = str_to_f64(s).await;
+                                    blue.set(n);
+                                })
+                                max="255"
+                                min="0"
+                                type="number"
+                                :value=$(blue.get())
+                            }
+                        )
                         ")"
                     </div>
                     <div>
