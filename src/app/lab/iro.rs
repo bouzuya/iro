@@ -39,7 +39,7 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                     rel="stylesheet"
                 />
                 ::topcoat::font::link(
-                    font: ::topcoat::font::fontsource::fontsource_font!(GEIST)
+                    font: ::topcoat::font::fontsource::fontsource_font!(GEIST, host: Asset)
                 )
                 ::topcoat::dev::script()
                 ::topcoat::runtime::script()
@@ -82,7 +82,11 @@ async fn home(cx: &::topcoat::context::Cx) -> ::topcoat::Result<impl ::topcoat::
                         </span>
                     </div>
                     <div>
-                        <form action="/lab/iro" class="flex flex-row gap-2" method="get">
+                        <form
+                            action="/lab/iro"
+                            class="flex flex-row gap-2"
+                            method="get"
+                        >
                             input(
                                 attrs: attributes! { name="c" type="text" :value=$(color) }
                             )
