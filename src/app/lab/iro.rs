@@ -200,7 +200,7 @@ async fn color_chip_form(color: &str) -> ::topcoat::Result<impl ::topcoat::view:
     })
 }
 
-#[::topcoat::runtime::procedure]
+#[::topcoat::runtime::procedure("/lab/iro/_procedure/color_to_rgb")]
 async fn color_to_rgb(value: String, f: f64) -> ::topcoat::Result<f64> {
     let rgb = Rgb::from_hex(&value).unwrap_or_else(|_| Rgb::new(0, 0, 0));
     let (r, g, b) = (rgb.r(), rgb.g(), rgb.b());
@@ -216,12 +216,12 @@ async fn color_to_rgb(value: String, f: f64) -> ::topcoat::Result<f64> {
     })
 }
 
-#[::topcoat::runtime::procedure]
+#[::topcoat::runtime::procedure("/lab/iro/_procedure/hex_str_to_f64")]
 async fn hex_str_to_f64(value: String) -> ::topcoat::Result<f64> {
     Ok(u8::from_str_radix(&value, 16).unwrap_or(0) as f64)
 }
 
-#[::topcoat::runtime::procedure]
+#[::topcoat::runtime::procedure("/lab/iro/_procedure/str_to_f64")]
 async fn str_to_f64(value: String) -> ::topcoat::Result<f64> {
     Ok(value.parse::<f64>().unwrap_or(0.0))
 }
