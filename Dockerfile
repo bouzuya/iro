@@ -1,6 +1,6 @@
 FROM rust:1.98-slim-trixie AS chef
 RUN cargo install cargo-chef
-RUN cargo install topcoat-cli@0.9.0 --locked
+RUN cargo install topcoat-cli@0.10.0 --locked
 WORKDIR /app
 
 FROM chef AS planner
