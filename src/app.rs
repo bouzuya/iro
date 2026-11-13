@@ -4,7 +4,6 @@ pub fn router() -> Result<::topcoat::router::Router, Box<dyn std::error::Error +
     use ::topcoat::asset::RouterBuilderAssetExt as _;
     use ::topcoat::router::RouterBuilderDirectoryExt as _;
     use ::topcoat::router::RouterBuilderDiscoverExt as _;
-    use ::topcoat::runtime::RouterBuilderRuntimeExt as _;
 
     trait MyRouterBuilderExt: Sized {
         fn assets_with_workaround_for_base_path(
@@ -36,11 +35,11 @@ pub fn router() -> Result<::topcoat::router::Router, Box<dyn std::error::Error +
     Ok(::topcoat::router::module_router!()
         .discover()
         .assets_with_workaround_for_base_path()?
-        .runtime()
+        .layer(::topcoat::runtime::RuntimeLayer::new())
         .build())
 }
 
 #[::topcoat::router::page]
-async fn redirect() -> ::topcoat::Result<()> {
+async fn redirect(cx: &::topcoat::context::Cx) -> ::topcoat::Result<()> {
     Err(::topcoat::router::error::redirect("/lab/iro").into())
 }
